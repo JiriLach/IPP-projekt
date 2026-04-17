@@ -65,27 +65,12 @@ class Interpreter:
         if not self.current_program:
             raise InterpreterError(ErrorCode.INT_STRUCTURE, "No program loaded")
 
-        symbol_table = SymbolTable()
+        # Tady použijeme naši novou tovární metodu
+        symbol_table = SymbolTable.build_and_validate(self.current_program)
+        
         heap = Heap()
         executor = Executor(symbol_table, heap)
         executor.input_io = input_io
-
-        for class_node in self.current_program.classes:
-            new_class = ClassDefinition(class_node.name)
-            symbol_table.register_class(new_class)
-
-        for class_node in self.current_program.classes:
-            register_class = symbol_table.get_class(class_node.name)
-            if class_node.parent:
-                try:
-                    register_class.parent = symbol_table.get_class(class_node.parent)
-                except Exception:
-                    raise InterpreterError(
-                        ErrorCode.INT_OTHER, f"Parent class {class_node.parent} not found"
-                    )
-
-            for method_node in class_node.methods:
-                register_class.add_method(method_node.selector, method_node.block)
 
         try:
             main_class = symbol_table.get_class("Main")
@@ -93,7 +78,6 @@ class Interpreter:
             raise InterpreterError(ErrorCode.SEM_MAIN, "Main class not found")
 
         main_instance = heap.allocate(main_class)
-
         root_frame = Frame(receiver=main_instance, parent_frame=None)
 
         try:

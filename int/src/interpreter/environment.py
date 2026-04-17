@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 This module contains the implementation of the Environment class,
 which is responsible for storing variable bindings and function definitions
@@ -59,6 +60,78 @@ class ClassDefinition:
 
 class SymbolTable:
     """Global registry of all class definitions. Provides methods to register and retrieve classes."""
+
+    @staticmethod
+    def _get_expected_arity(selector: str) -> int:
+        """Pomocná statická metoda pro výpočet arity selektoru."""
+        if ":" in selector:
+            return selector.count(":")
+        elif selector[0].isalpha() or selector[0] == "_":
+            return 0
+        return 1
+
+    @classmethod
+    def build_and_validate(cls, program) -> 'SymbolTable':
+        """
+        Tovární metoda: Projde AST program, provede sémantické kontroly 
+        a vrátí bezpečnou instanci SymbolTable.
+        """
+        # Vytvoříme novou instanci samotné SymbolTable (volá to __init__)
+        symbol_table = cls()
+        seen_classes = set()
+
+        # --- 1. PRŮCHOD: Registrace tříd a kontrola KOLIZÍ TŘÍD ---
+        for class_node in program.classes:
+            if class_node.name in seen_classes:
+                raise InterpreterError(ErrorCode.SEM_ERROR, f"Duplicate class name: {class_node.name}")
+            seen_classes.add(class_node.name)
+            
+            new_class = ClassDefinition(class_node.name)
+            symbol_table.register_class(new_class)
+
+        # --- 2. PRŮCHOD: Metody, dědičnost a kontroly ARITY ---
+        for class_node in program.classes:
+            register_class = symbol_table.get_class(class_node.name)
+            
+            if class_node.parent:
+                try:
+                    register_class.parent = symbol_table.get_class(class_node.parent)
+                except Exception:
+                    raise InterpreterError(ErrorCode.SEM_ERROR, f"Parent class {class_node.parent} not found")
+
+            seen_selectors = set()
+            for method_node in class_node.methods:
+                if method_node.selector in seen_selectors:
+                    raise InterpreterError(ErrorCode.SEM_ERROR, f"Duplicate method: {method_node.selector}")
+                seen_selectors.add(method_node.selector)
+
+                expected_arity = cls._get_expected_arity(method_node.selector)
+                if expected_arity != method_node.block.arity:
+                    raise InterpreterError(ErrorCode.SEM_ARITY, f"Arity mismatch for {method_node.selector}")
+
+                if len(method_node.block.parameters) != method_node.block.arity:
+                    raise InterpreterError(ErrorCode.SEM_ARITY, "Block parameter count does not match arity")
+
+                seen_params = set()
+                for param in method_node.block.parameters:
+                    if param.name in seen_params:
+                        raise InterpreterError(ErrorCode.SEM_ERROR, f"Duplicate parameter: {param.name}")
+                    seen_params.add(param.name)
+
+                register_class.add_method(method_node.selector, method_node.block)
+
+        # --- 3. PRŮCHOD: Kontrola rekurzivní dědičnosti (Cykly) ---
+        for class_name in seen_classes:
+            cls_obj = symbol_table.get_class(class_name)
+            visited = set()
+            curr = cls_obj
+            while curr.parent is not None:
+                if curr.parent.name in visited:
+                    raise InterpreterError(ErrorCode.SEM_ERROR, f"Inheritance cycle detected in {class_name}")
+                visited.add(curr.parent.name)
+                curr = curr.parent
+
+        return symbol_table
 
     def __init__(self) -> None:
         self.classes: dict[str, ClassDefinition] = {}

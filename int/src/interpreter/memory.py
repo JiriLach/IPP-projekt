@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 This module contains the memory management logic for the interpreter.
 

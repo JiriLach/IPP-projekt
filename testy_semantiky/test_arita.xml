@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL26" description="Chybna arita">
+  <class name="Main" parent="Object">
+    <method selector="run">
+      <block arity="0">
+        <assign order="1">
+          <var name="_"/>
+          <expr>
+            <literal class="Nil" value="nil"/>
+          </expr>
+        </assign>
+      </block>
+    </method>
+    <method selector="pricti:k:">
+      <block arity="1">
+        <parameter order="1" name="a"/>
+      </block>
+    </method>
+  </class>
+</program>
