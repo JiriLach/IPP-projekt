@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL26" description="Test na spravne fungovani super">
+  <class name="A" parent="Object">
+    <method selector="test">
+      <block arity="0">
+        <assign order="1">
+          <var name="_"/>
+          <expr>
+            <send selector="print">
+              <expr>
+                <literal class="String" value="Kouzlo super funguje!&#10;"/>
+              </expr>
+            </send>
+          </expr>
+        </assign>
+      </block>
+    </method>
+  </class>
+  
+  <class name="B" parent="A">
+    <method selector="test">
+      <block arity="0">
+        <assign order="1">
+          <var name="_"/>
+          <expr>
+            <send selector="test">
+              <expr>
+                <var name="super"/>
+              </expr>
+            </send>
+          </expr>
+        </assign>
+      </block>
+    </method>
+  </class>
+
+  <class name="C" parent="B">
+  </class>
+
+  <class name="Main" parent="Object">
+    <method selector="run">
+      <block arity="0">
+        <assign order="1">
+          <var name="obj"/>
+          <expr>
+            <send selector="new">
+              <expr>
+                <literal class="class" value="C"/>
+              </expr>
+            </send>
+          </expr>
+        </assign>
+        <assign order="2">
+          <var name="_"/>
+          <expr>
+            <send selector="test">
+              <expr>
+                <var name="obj"/>
+              </expr>
+            </send>
+          </expr>
+        </assign>
+      </block>
+    </method>
+  </class>
+</program>

@@ -1,0 +1,21 @@
+# Cache linterů a nástrojů
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+.eslintcache
+
+# Virtuální prostředí a závislosti
+__pycache__/
+venv/
+.venv/
+node_modules/
+
+# Verzování a systémové soubory
+.git/
+.gitignore
+.DS_Store
+
+# Ostatní nepotřebné věci
+*.test
+*.in
+*.out

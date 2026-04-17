@@ -1,0 +1,162 @@
+{
+  "discovered_test_cases": [
+    {
+      "name": "plus",
+      "test_source_path": "/app/tester/moje_testy/plus.test",
+      "stdin_file": null,
+      "expected_stdout_file": null,
+      "test_type": 1,
+      "description": "Test scitani dvou cisel",
+      "category": "MATH",
+      "points": 5,
+      "expected_parser_exit_codes": null,
+      "expected_interpreter_exit_codes": [
+        0
+      ],
+      "sourceCode": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<program language=\"SOL26\">\n  <class name=\"Main\" parent=\"Object\">\n    <method selector=\"run\">\n      <block arity=\"0\">\n        <assign order=\"1\">\n          <var name=\"_\"/>\n          <expr>\n            <send selector=\"plus:\">\n              <expr><literal class=\"Integer\" value=\"10\"/></expr>\n              <arg order=\"1\">\n                <expr><literal class=\"Integer\" value=\"5\"/></expr>\n              </arg>\n            </send>\n          </expr>\n        </assign>\n      </block>\n    </method>\n  </class>\n</program>"
+    },
+    {
+      "name": "test01",
+      "test_source_path": "/app/tester/moje_testy/test01.test",
+      "stdin_file": null,
+      "expected_stdout_file": null,
+      "test_type": 1,
+      "description": "Muj zkusebni test",
+      "category": "ZAKLADNI",
+      "points": 5,
+      "expected_parser_exit_codes": null,
+      "expected_interpreter_exit_codes": [
+        31
+      ],
+      "sourceCode": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<program language=\"SOL26\">\n</program>"
+    },
+    {
+      "name": "test02",
+      "test_source_path": "/app/tester/moje_testy/test02.test",
+      "stdin_file": null,
+      "expected_stdout_file": null,
+      "test_type": 1,
+      "description": "Test vytvoreni objektu a volani existujici metody",
+      "category": "OBJECTS",
+      "points": 3,
+      "expected_parser_exit_codes": null,
+      "expected_interpreter_exit_codes": [
+        0
+      ],
+      "sourceCode": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<program language=\"SOL26\">\n  <class name=\"A\" parent=\"Object\">\n    <method selector=\"foo\">\n      <block arity=\"0\"/>\n    </method>\n  </class>\n  <class name=\"Main\" parent=\"Object\">\n    <method selector=\"run\">\n      <block arity=\"0\">\n        <assign order=\"1\">\n          <var name=\"o\"/>\n          <expr>\n            <send selector=\"new\">\n              <expr><literal class=\"class\" value=\"A\"/></expr>\n            </send>\n          </expr>\n        </assign>\n        <assign order=\"2\">\n          <var name=\"_\"/>\n          <expr>\n            <send selector=\"foo\">\n              <expr><var name=\"o\"/></expr>\n            </send>\n          </expr>\n        </assign>\n      </block>\n    </method>\n  </class>\n</program>"
+    },
+    {
+      "name": "test03",
+      "test_source_path": "/app/tester/moje_testy/test03.test",
+      "stdin_file": null,
+      "expected_stdout_file": null,
+      "test_type": 1,
+      "description": "Volani neexistujici metody (bad) v XML",
+      "category": "ERRORS",
+      "points": 2,
+      "expected_parser_exit_codes": null,
+      "expected_interpreter_exit_codes": [
+        51
+      ],
+      "sourceCode": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<program language=\"SOL26\">\n  <class name=\"A\" parent=\"Object\">\n  </class>\n  <class name=\"Main\" parent=\"Object\">\n    <method selector=\"run\">\n      <block arity=\"0\">\n        <assign order=\"1\">\n          <var name=\"o\"/>\n          <expr><send selector=\"new\"><expr><literal class=\"class\" value=\"A\"/></expr></send></expr>\n        </assign>\n        <assign order=\"2\">\n          <var name=\"_\"/>\n          <expr>\n            <send selector=\"bad\">\n              <expr><var name=\"o\"/></expr>\n            </send>\n          </expr>\n        </assign>\n      </block>\n    </method>\n  </class>\n</program>"
+    },
+    {
+      "name": "test04",
+      "test_source_path": "/app/tester/moje_testy/test04.test",
+      "stdin_file": null,
+      "expected_stdout_file": null,
+      "test_type": 1,
+      "description": "Test vypisu hodnoty objektu",
+      "category": "IO_XML",
+      "points": 5,
+      "expected_parser_exit_codes": null,
+      "expected_interpreter_exit_codes": [
+        51
+      ],
+      "sourceCode": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<program language=\"SOL26\">\n  <class name=\"Main\" parent=\"Object\">\n    <method selector=\"run\">\n      <block arity=\"0\">\n        <assign order=\"1\">\n          <var name=\"val\"/>\n          <expr><literal class=\"Integer\" value=\"123\"/></expr>\n        </assign>\n        <assign order=\"2\">\n          <var name=\"_\"/>\n          <expr>\n            <send selector=\"print\">\n              <expr><var name=\"val\"/></expr>\n            </send>\n          </expr>\n        </assign>\n      </block>\n    </method>\n  </class>\n</program>"
+    }
+  ],
+  "unexecuted": {},
+  "results": {
+    "MATH": {
+      "total_points": 5,
+      "passed_points": 5,
+      "test_results": {
+        "plus": {
+          "result": "passed",
+          "parser_exit_code": null,
+          "interpreter_exit_code": 0,
+          "parser_stdout": "",
+          "parser_stderr": "",
+          "interpreter_stdout": "",
+          "interpreter_stderr": "",
+          "diff_output": null
+        }
+      }
+    },
+    "ZAKLADNI": {
+      "total_points": 5,
+      "passed_points": 5,
+      "test_results": {
+        "test01": {
+          "result": "passed",
+          "parser_exit_code": null,
+          "interpreter_exit_code": 31,
+          "parser_stdout": "",
+          "parser_stderr": "",
+          "interpreter_stdout": "",
+          "interpreter_stderr": "Error 31: Main class not found\n",
+          "diff_output": null
+        }
+      }
+    },
+    "OBJECTS": {
+      "total_points": 3,
+      "passed_points": 3,
+      "test_results": {
+        "test02": {
+          "result": "passed",
+          "parser_exit_code": null,
+          "interpreter_exit_code": 0,
+          "parser_stdout": "",
+          "parser_stderr": "",
+          "interpreter_stdout": "",
+          "interpreter_stderr": "",
+          "diff_output": null
+        }
+      }
+    },
+    "ERRORS": {
+      "total_points": 2,
+      "passed_points": 2,
+      "test_results": {
+        "test03": {
+          "result": "passed",
+          "parser_exit_code": null,
+          "interpreter_exit_code": 51,
+          "parser_stdout": "",
+          "parser_stderr": "",
+          "interpreter_stdout": "",
+          "interpreter_stderr": "Error 51: Message 'bad' not understood by A.\n",
+          "diff_output": null
+        }
+      }
+    },
+    "IO_XML": {
+      "total_points": 5,
+      "passed_points": 5,
+      "test_results": {
+        "test04": {
+          "result": "passed",
+          "parser_exit_code": null,
+          "interpreter_exit_code": 51,
+          "parser_stdout": "",
+          "parser_stderr": "",
+          "interpreter_stdout": "",
+          "interpreter_stderr": "Error 51: Message 'print' not understood by Integer.\n",
+          "diff_output": null
+        }
+      }
+    }
+  }
+}

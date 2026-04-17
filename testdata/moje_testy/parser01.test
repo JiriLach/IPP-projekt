@@ -1,0 +1,8 @@
++++ PARSER
+*** Zkouska prekladu python parserem
+!C! 0
+>>> 5
+
+class Main : Object {
+  run [ | ]
+}

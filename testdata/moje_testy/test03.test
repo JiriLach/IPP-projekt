@@ -1,0 +1,28 @@
+*** Volani neexistujici metody (bad) v XML
++++ ERRORS
+!I! 51
+>>> 2
+
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL26">
+  <class name="A" parent="Object">
+  </class>
+  <class name="Main" parent="Object">
+    <method selector="run">
+      <block arity="0">
+        <assign order="1">
+          <var name="o"/>
+          <expr><send selector="new"><expr><literal class="class" value="A"/></expr></send></expr>
+        </assign>
+        <assign order="2">
+          <var name="_"/>
+          <expr>
+            <send selector="bad">
+              <expr><var name="o"/></expr>
+            </send>
+          </expr>
+        </assign>
+      </block>
+    </method>
+  </class>
+</program>
